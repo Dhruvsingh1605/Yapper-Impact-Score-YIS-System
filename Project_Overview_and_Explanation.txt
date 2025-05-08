@@ -1,0 +1,90 @@
+Yapper Impact Score (YIS) System – Project Summary and Architecture
+
+1. Overview
+
+This Yapper Impact Score (YIS) system is a prototype for evaluating social media influencers’ impact on a specific campaign. It simulates tweets for mock users, measures each tweet’s engagement and semantic relevance to a campaign brief, and combines these metrics into a single score per user. MLOps tooling (DVC and MLflow) ensures data and experiment reproducibility, while FastAPI exposes the scoring logic as a REST endpoint for integration or dashboarding.
+
+2. Project Structure
+
+* **data/raw/**
+
+  * `generate_mock_tweets.py`: Generates synthetic tweet data using Faker, random timestamps, and engagement metrics. Outputs `mock_tweets.json`.
+  * `mock_tweets.json`: Versioned by DVC, raw input for the pipeline.
+  * `campaign_brief.txt`: Text describing the campaign, used for semantic relevance calculation.
+
+* **data/processed/**
+
+  * `yis_report.csv`: Final per-user summary table with tweet count, total engagement, average relevance, and final YIS.
+
+* **app/models/config.py**
+
+  * Loads configuration via Pydantic Settings: embedding model name and engagement weights (retweet, reply, like).
+
+* **app/services/embedder.py**
+
+  * **`embed_texts(texts: List[str]) -> np.ndarray`**
+    Loads a Sentence-Transformers model and encodes a list of texts into embedding vectors.
+  * **`compute_relevance(tweet_vecs: np.ndarray, campaign_vec: np.ndarray) -> List[float]`**
+    Computes cosine similarity between each tweet vector and the campaign-brief vector, yielding relevance scores in \[0,1].
+
+* **app/services/scorer.py**
+
+  * **`engagement_score(retweets, replies, likes, weights) -> float`**
+    Calculates engagement as `retweets*5 + replies*3 + likes*1.5` (weights from config).
+  * **`final_tweet_score(eng_score: float, relevance: float) -> float`**
+    Multiplies engagement by relevance to produce a per-tweet score.
+  * **`aggregate_user_scores(tweet_scores: List[float]) -> float`**
+    Sums all per-tweet scores into a single YIS for the user.
+
+* **app/pipeline/embed\_and\_score.py**
+
+  * Orchestrates the pipeline: loads mock tweets and campaign brief; logs parameters to MLflow; computes embeddings, relevances, engagement, and YIS; writes `yis_report.csv`; and logs artifacts (raw data, brief, report) to MLflow.
+
+* **app/routers/score.py**
+
+  * Defines a FastAPI POST endpoint `/score/` that accepts a list of tweets (Pydantic model), invokes the embedder and scorer services, and returns the user’s YIS along with details (tweet count, total engagement, average relevance).
+
+* **app/main.py**
+
+  * Initializes the FastAPI application and includes the score router under the `/score` prefix.
+
+3. MLOps Integration
+
+* **DVC**
+
+  * Tracks `data/raw/mock_tweets.json` and `campaign_brief.txt` via `dvc add` and stages in `dvc.yaml`:
+
+    ```yaml
+    stages:
+      simulate:
+        cmd: python3 data/raw/generate_mock_tweets.py --output data/raw/mock_tweets.json
+      embed_and_score:
+        cmd: python3 -m app.pipeline.embed_and_score
+    ```
+  * Enables `dvc repro` to rebuild data generation and scoring reproducibly.
+
+* **MLflow**
+
+  * Experiment named `YIS-Pipeline` logs:
+
+    * Params: embedding model name, number of tweets.
+    * Metrics: final YIS per user.
+    * Artifacts: raw tweets JSON, campaign brief, and final CSV report.
+  * Viewable via `mlflow ui` at `localhost:5000`.
+
+4. Workflow
+
+5. **Data Simulation**: Run DVC stage `simulate` to generate `mock_tweets.json`.
+
+6. **Pipeline Execution**: `python3 -m app.pipeline.embed_and_score` (or `dvc repro embed_and_score`) to produce `data/processed/yis_report.csv` and log MLflow run.
+
+7. **API Invocation**: Start FastAPI (`uvicorn app.main:app --reload`) and POST tweet data to `/score/` to receive YIS on demand.
+
+8. **Reproducibility**: Use `dvc repro` and MLflow’s UI to track changes when modifying embedding models, weights, or data.
+
+9. Future Extensions
+
+* Integrate live Twitter API listeners to fetch real tweets in place of simulated data.
+* Support multiple users by grouping tweets per handle in the pipeline and returning a list of YIS entries.
+* Add GPT-based scoring as an alternate semantic relevance module behind a feature flag.
+* Build a Streamlit or Flask dashboard to visualize YIS trends over time.

@@ -1,0 +1,15 @@
+artifact_uri: file:///media/dhruv/Local%20Disk/YIS_System/Yapper-Impact-Score-YIS-System/mlruns/599964193652126870/fc5744944ba7475c9dfd01f0c5d6d612/artifacts
+end_time: 1746728274174
+entry_point_name: ''
+experiment_id: '599964193652126870'
+lifecycle_stage: active
+run_id: fc5744944ba7475c9dfd01f0c5d6d612
+run_name: upbeat-dove-722
+run_uuid: fc5744944ba7475c9dfd01f0c5d6d612
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746728273274
+status: 4
+tags: []
+user_id: dhruv

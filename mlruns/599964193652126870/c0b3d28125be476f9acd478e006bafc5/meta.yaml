@@ -1,0 +1,15 @@
+artifact_uri: file:///media/dhruv/Local%20Disk/YIS_System/Yapper-Impact-Score-YIS-System/mlruns/599964193652126870/c0b3d28125be476f9acd478e006bafc5/artifacts
+end_time: 1746729380674
+entry_point_name: ''
+experiment_id: '599964193652126870'
+lifecycle_stage: active
+run_id: c0b3d28125be476f9acd478e006bafc5
+run_name: likeable-grouse-798
+run_uuid: c0b3d28125be476f9acd478e006bafc5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746729379703
+status: 3
+tags: []
+user_id: dhruv

@@ -1,0 +1,17 @@
+stages:
+  simulate:
+    cmd: python3 data/raw/generate_mock_tweets.py --output data/raw/mock_tweets.json
+    deps:
+      - data/raw/generate_mock_tweets.py
+    outs:
+      - data/raw/mock_tweets.json
+
+  embed_and_score:
+    cmd: python3 -m app.pipeline.embed_and_score
+    deps:
+      - data/raw/mock_tweets.json
+      - data/raw/campaign_brief.txt
+      - app/services/embedder.py
+      - app/services/scorer.py
+    outs:
+      - data/processed/yis_report.csv

@@ -1,0 +1,15 @@
+artifact_uri: file:///media/dhruv/Local%20Disk/YIS_System/Yapper-Impact-Score-YIS-System/mlruns/599964193652126870/ad79950c21194928bf2b2f16dbe4d0e5/artifacts
+end_time: 1746729463905
+entry_point_name: ''
+experiment_id: '599964193652126870'
+lifecycle_stage: active
+run_id: ad79950c21194928bf2b2f16dbe4d0e5
+run_name: zealous-penguin-22
+run_uuid: ad79950c21194928bf2b2f16dbe4d0e5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746729462975
+status: 3
+tags: []
+user_id: dhruv

@@ -1,0 +1,15 @@
+artifact_uri: file:///media/dhruv/Local%20Disk/YIS_System/Yapper-Impact-Score-YIS-System/mlruns/599964193652126870/e3d9d0d3d1934640964b47e462470bd8/artifacts
+end_time: 1746728399421
+entry_point_name: ''
+experiment_id: '599964193652126870'
+lifecycle_stage: active
+run_id: e3d9d0d3d1934640964b47e462470bd8
+run_name: dazzling-lynx-21
+run_uuid: e3d9d0d3d1934640964b47e462470bd8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746728398978
+status: 4
+tags: []
+user_id: dhruv

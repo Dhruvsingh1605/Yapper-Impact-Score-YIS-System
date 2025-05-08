@@ -1,0 +1,15 @@
+artifact_uri: file:///media/dhruv/Local%20Disk/YIS_System/Yapper-Impact-Score-YIS-System/mlruns/599964193652126870/4bf1aacab53b4c3cb76366727ffc7f5b/artifacts
+end_time: 1746729618383
+entry_point_name: ''
+experiment_id: '599964193652126870'
+lifecycle_stage: active
+run_id: 4bf1aacab53b4c3cb76366727ffc7f5b
+run_name: invincible-rook-253
+run_uuid: 4bf1aacab53b4c3cb76366727ffc7f5b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1746729617878
+status: 3
+tags: []
+user_id: dhruv

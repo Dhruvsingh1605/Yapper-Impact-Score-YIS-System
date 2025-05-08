@@ -1,0 +1,16 @@
+schema: '2.0'
+stages:
+  simulate:
+    cmd: python3 data/raw/generate_mock_tweets.py --output data/raw/mock_tweets.json
+    deps:
+    - path: data/raw/generate_mock_tweets.py
+      hash: md5
+      md5: f203feb2c64288335cec6832b09db0f6
+      size: 1519
+      isexec: true
+    outs:
+    - path: data/raw/mock_tweets.json
+      hash: md5
+      md5: 310ed5619bac446bba7150d745991ab4
+      size: 28396
+      isexec: true
